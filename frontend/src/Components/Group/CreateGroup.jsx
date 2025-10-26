@@ -68,7 +68,8 @@ const CreateGroup = ({ setIsGroup }) => {
 
           <div className="bg-white overflow-y-scroll h-[50.3vh]">
             {query &&
-              auth.searchUser?.map((item) => (
+              //(Array.isArray(auth.searchUser) ? auth.searchUser : []).map((item) => (
+                (Array.isArray(auth.searchUser) ? auth.searchUser : []).map((item) => (
                 <div
                   onClick={() => {
                     const updated = new Set(groupMember);

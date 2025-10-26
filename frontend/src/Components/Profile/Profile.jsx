@@ -33,8 +33,8 @@ const Profile = ({ handleCloseOpenProfile }) => {
     const data = new FormData();
     data.append("file", pics);
     data.append("upload_preset", "chattingo");
-    data.append("cloud_name", "dadlxgune");
-    fetch("https://api.cloudinary.com/v1_1/dadlxgune/image/upload", {
+    data.append("cloud_name", "dltxatluf");
+    fetch("https://api.cloudinary.com/v1_1/dltxatluf/image/upload", {
       method: "post",
       body: data,
     })

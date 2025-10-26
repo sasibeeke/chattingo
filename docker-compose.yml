@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: chattingo-db
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - chattingo-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy 
+    networks:
+      - chattingo-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - chattingo-network
+
+volumes:
+  db_data:
+
+networks:
+  chattingo-network:
+    driver: bridge
